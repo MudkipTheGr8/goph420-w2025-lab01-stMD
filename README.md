@@ -1,0 +1,2 @@
+# goph420-w2025-lab01-stMD
+GOPH 420 LAB ASSIGMENT #01
