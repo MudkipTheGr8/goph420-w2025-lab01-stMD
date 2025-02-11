@@ -1,2 +1,7 @@
-# goph420-w2025-lab01-stMD
-GOPH 420 LAB ASSIGMENT #01
+# GOPH 420 – Inversion and Parameter Estimation for Geophysicists
+
+*Semster:* W2025
+
+*Instructor:* B. Karchewski
+
+*Author:* Matthew Davidson
