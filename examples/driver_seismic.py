@@ -1,27 +1,38 @@
-
-
-
-
-
+# Matthew Davidson UCID: 30182729
+# File Function Description: Contains code that generates analysis results and generates plots on integrating discrete seismogram data.
+#
 
 import numpy as np
 import matplotlib.pyplot as plt
 from goph420_lab01.integration import integrate_newton
 
-
-def load_seismic_data(filepath):
+# Function Purpose: Loads seismic data from a file
+# Parameters:
+#  filepath: string, the path to the file containing the seismic data
+# Returns: two numpy arrays, the time and velocity data
+def load_velocity_data(filepath):
     data = np.loadtxt(filepath)
     time = data[:,0]
     velocity = data[:,1]
     return time, velocity
 
+# Function Purpose: Estimates the event duration T from seismic data
+# Parameters:
+#  time: numpy array, the time data
+#  velocity: numpy array, the velocity data
+# Returns: float, the estimated event duration T
 def estimate_T(time, velocity):
     threshold = 0.005 * np.max(np.abs(velocity))
     valid_indices = np.where(np.abs(velocity) > threshold)[0]
     if len(valid_indices) == 0:
-        return time [-1] # If no indices are found, defaulting to the last time point.
+        return time [-1]
     return time[valid_indices[-1]]
 
+# Function Purpose: Computes the integrals of the squared velocity data using Newton-Cotes methods
+# Parameters:
+#  time: numpy array, the time data
+#  velocity: numpy array, the velocity data
+# Returns: two lists, the sampling intervals and the computed integrals
 def compute_integrals(time, velocity):
     dt_values = [0.01, 0.02, 0.03, 0.04, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16]
     results = {}
@@ -30,7 +41,7 @@ def compute_integrals(time, velocity):
 
     for dt in dt_values:
         indices = np.arange(0, len(time), int(dt / 0.01))
-        if len(indices) % 2 == 0: #Ensures odd number of points
+        if len(indices) % 2 == 0:
             indices = indices[:-1]
         
         t_downsampled, v_downsampled = time [indices], velocity[indices]
@@ -44,6 +55,11 @@ def compute_integrals(time, velocity):
 
     return dt_values, results
 
+# Function Purpose: Plots the convergence of the Newton-Cotes methods
+# Parameters:
+#  dt_values: list, the sampling intervals
+#  results: dict, the computed integrals
+# Returns: None, creates a Graph
 def plot_convergence(dt_values, results):
     epsilon = 1e-10
     relative_error_trap = np.abs((results["trap"] - results["trap"][-1]) / (results["trap"][-1] + epsilon))

@@ -1,0 +1,6 @@
+required packages:
+- NumPy
+- Matplotlib
+- Scipy
+
+Use python -m pip install -r requirements.txt to install the required packages.
